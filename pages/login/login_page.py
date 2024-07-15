@@ -1,11 +1,14 @@
-from pages.base_page import BasePage
+import allure
 
 
-class LoginPage(BasePage):
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.example_element = ("ID", "example_id")
+class LoginPage:
+    def __init__(self, page):
+        self.page = page
         pass
 
-    def get_example_text(self):
-        return self.find_element(*self.example_element).text
+    @allure.step("Logging in with user data: {user_data}")
+    def login(self, user_data: dict):
+        self.page.fill("//input[@name='user-name']", user_data['username'])
+        self.page.fill("//input[@name='password']", user_data['password'])
+        self.page.click("//input[@type='submit']")
+        pass
